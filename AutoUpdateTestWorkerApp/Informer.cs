@@ -47,6 +47,7 @@ namespace AutoUpdateTestWorkerApp
 
                         Date = DateTime.UtcNow,
                         InformType = informType,
+                        AppId = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName,
                         DeployId = _deploySettings.Id,
                         Version = version,
                         Message = message,

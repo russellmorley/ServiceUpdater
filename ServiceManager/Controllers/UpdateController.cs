@@ -12,7 +12,7 @@ using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DemrServiceManager.Controllers
+namespace ServiceManager.Controllers
 {
     [Authorize]
     [ApiController]

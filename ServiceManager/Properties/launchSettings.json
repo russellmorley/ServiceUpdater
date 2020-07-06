@@ -11,11 +11,12 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DemrServiceManager": {
+    "ServiceManager": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

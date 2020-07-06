@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace DemrServiceManager
+namespace ServiceManager
 {
     public class Program
     {
@@ -21,7 +21,7 @@ namespace DemrServiceManager
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseWebRoot("clientapp/dist");
                 });
     }
 }
