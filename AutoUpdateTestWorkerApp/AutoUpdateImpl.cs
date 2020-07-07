@@ -26,24 +26,28 @@ namespace AutoUpdateTestWorkerApp
                 {
                     startOsCommand.FileName = "cmd";
                     startOsCommand.Arguments = $"/c sc start {serviceName}";
+                    startOsCommand.WaitForExit = true;
                 }
                 else
                 {
                     startOsCommand.FileName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
                     startOsCommand.Arguments = "";
+                    startOsCommand.WaitForExit = false;
                 }
                 _startCommand = startOsCommand;
 
                 OsCommand stopOsCommand = new OsCommand();
                 if (!serviceName.Equals(""))
                 {
-                    stopOsCommand.FileName = "cmd"; //Assembly.GetExecutingAssembly().Location;
+                    stopOsCommand.FileName = "cmd";
                     stopOsCommand.Arguments = $"/c sc stop {serviceName}";
+                    stopOsCommand.WaitForExit = true;
                 }
                 else
                 {
                     stopOsCommand.FileName = "cmd";
-                    stopOsCommand.Arguments = $"/c taskkill /PID {System.Diagnostics.Process.GetCurrentProcess().Id.ToString()}"; //$"/IM {Assembly.GetExecutingAssembly().GetName().Name}.exe";
+                    stopOsCommand.Arguments = $"/c taskkill /PID {System.Diagnostics.Process.GetCurrentProcess().Id.ToString()}";
+                    stopOsCommand.WaitForExit = true;
                 }
                 _stopCommand = stopOsCommand;
             }
@@ -52,13 +56,15 @@ namespace AutoUpdateTestWorkerApp
                 _manifestUrl = macManifestUrl;
 
                 OsCommand startOsCommand = new OsCommand();
-                startOsCommand.FileName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName; //Assembly.GetExecutingAssembly().Location;
+                startOsCommand.FileName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
                 startOsCommand.Arguments = "";
+                startOsCommand.WaitForExit = false;
                 _startCommand = startOsCommand;
 
                 OsCommand stopOsCommand = new OsCommand();
                 stopOsCommand.FileName = "kill"; //killall
-                stopOsCommand.Arguments = System.Diagnostics.Process.GetCurrentProcess().Id.ToString(); //Assembly.GetExecutingAssembly().GetName().Name;
+                stopOsCommand.Arguments = System.Diagnostics.Process.GetCurrentProcess().Id.ToString();
+                stopOsCommand.WaitForExit = true;
                 _stopCommand = stopOsCommand;
             }
         }

@@ -19,5 +19,7 @@
         /// e.g. Windows Arguments = $"/c \"{escapedArgs}\""
         /// </summary>
         public string Arguments { get; set; }
+
+        public bool WaitForExit { get; set; }
     }
 }

@@ -6,20 +6,23 @@ namespace Updater
 {
     internal static class Utilities
     {
-        internal static int ExecuteCommand(string command, string arguments, ref StringBuilder standardOutput, string workingDir = null)
+        internal static int ExecuteCommand(string command, string arguments, ref StringBuilder standardOutput, bool waitBeforeExiting, string workingDir = null)
         {
             ProcessStartInfo processStartInfo = new ProcessStartInfo();
             processStartInfo.FileName = command;
             processStartInfo.Arguments = arguments;
-            processStartInfo.RedirectStandardOutput = true;
             processStartInfo.CreateNoWindow = true;
             processStartInfo.UseShellExecute = false;
             if (workingDir != null)
             {
                 processStartInfo.WorkingDirectory = workingDir;
             }
-            processStartInfo.RedirectStandardError = true;
-            var proc = new Process
+            if (waitBeforeExiting)
+            {
+                processStartInfo.RedirectStandardOutput = true;
+                processStartInfo.RedirectStandardError = true;
+            }
+            var proc = new System.Diagnostics.Process
             {
                 StartInfo = processStartInfo
             };
@@ -27,10 +30,14 @@ namespace Updater
             using (proc)
             {
                 proc.Start();
-                standardOutput.AppendLine(proc.StandardOutput.ReadToEnd() + Environment.NewLine);
-                standardOutput.AppendLine(proc.StandardError.ReadToEnd());
-                proc.WaitForExit();
-                return proc.ExitCode;
+                if (waitBeforeExiting)
+                {
+                    standardOutput.AppendLine(proc.StandardOutput.ReadToEnd() + Environment.NewLine);
+                    standardOutput.AppendLine(proc.StandardError.ReadToEnd());
+                    proc.WaitForExit();
+                    return proc.ExitCode;
+                }
+                return 0;
             }
         }
     }

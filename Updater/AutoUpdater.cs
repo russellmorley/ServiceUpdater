@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Updater
 {
-    public class AutoUpdate
+    public class AutoUpdater
     {
         private const string VERSION_JSON = "version.json";
         private const string AUTOUPDATER_PROCESS_EXEC_BASE = "UpdaterProcess";
@@ -23,7 +23,7 @@ namespace Updater
         private VersionResponse _VersionResponse;
         private string _executable;
 
-        public AutoUpdate(IAutoUpdate autoUpdateComponent)
+        public AutoUpdater(IAutoUpdate autoUpdateComponent)
         {
             _AutoUpdateComponent = autoUpdateComponent;
             _executable = (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) ? $"{AUTOUPDATER_PROCESS_EXEC_BASE}.exe" : AUTOUPDATER_PROCESS_EXEC_BASE;
@@ -73,8 +73,10 @@ namespace Updater
                     $" {Quote(targetDir)}" +
                     $" {Quote(_AutoUpdateComponent.StopCommand?.FileName)}" +
                     $" {Quote(_AutoUpdateComponent.StopCommand?.Arguments)}" +
+                    $" {Quote(_AutoUpdateComponent.StopCommand?.WaitForExit.ToString())}" +
                     $" {Quote(_AutoUpdateComponent.StartCommand?.FileName)}" +
-                    $" {Quote(_AutoUpdateComponent.StartCommand?.Arguments)}", ref standardOutput, targetDir);
+                    $" {Quote(_AutoUpdateComponent.StartCommand?.Arguments)}" +
+                    $" {Quote(_AutoUpdateComponent.StartCommand?.WaitForExit.ToString())}", ref standardOutput, true, targetDir);
                 if (exitCode != 0) //Error
                 {
                     return standardOutput.ToString();

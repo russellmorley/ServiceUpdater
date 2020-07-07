@@ -24,7 +24,7 @@ namespace Updater.Process
                 //1. Stop
                 if (inParams.HasStopCommand())
                 {
-                    exitCode = Utilities.ExecuteCommand(inParams.StopCommandFileName, inParams.StopCommandArguments, ref standardOutput);
+                    exitCode = Utilities.ExecuteCommand(inParams.StopCommandFileName, inParams.StopCommandArguments, ref standardOutput, inParams.StopCommandWaitForExit);
                     if (exitCode != 0) //Error
                     {
                         Log(standardOutput.ToString());
@@ -47,7 +47,7 @@ namespace Updater.Process
                 if (inParams.HasStartCommand())
                 {
                     Log($"**{inParams.StartCommandFileName } {inParams.StartCommandArguments}");
-                    exitCode = Utilities.ExecuteCommand(inParams.StartCommandFileName, inParams.StartCommandArguments, ref standardOutput);
+                    exitCode = Utilities.ExecuteCommand(inParams.StartCommandFileName, inParams.StartCommandArguments, ref standardOutput, inParams.StartCommandWaitForExit);
                     if (exitCode != 0) //Error
                     {
                         Log(standardOutput.ToString());

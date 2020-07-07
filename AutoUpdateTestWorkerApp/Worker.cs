@@ -33,7 +33,7 @@ namespace AutoUpdateTestWorkerApp
         {
             AutoUpdateImpl autoUpdateImpl = new AutoUpdateImpl(_options.WinUrl, _options.MacUrl, _options.PackageUrl, _options.ServiceName);
             _logger.LogInformation($"autoUpdateImpl: {JsonSerializer.Serialize(autoUpdateImpl)}");
-            AutoUpdate autoUpdate = new AutoUpdate(autoUpdateImpl);
+            AutoUpdater autoUpdater = new AutoUpdater(autoUpdateImpl);
 
             string runningVersionString = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
@@ -45,11 +45,11 @@ namespace AutoUpdateTestWorkerApp
                     {
 
    
-                        Task<bool> isUpdateAvailable = autoUpdate.CheckUpdateAvailableAsync(getAuthenticationBearerToken());
+                        Task<bool> isUpdateAvailable = autoUpdater.CheckUpdateAvailableAsync(getAuthenticationBearerToken());
                         if (isUpdateAvailable.Result)
                         {
                             string dir = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-                            Task task = Task.Run(async () => { await autoUpdate.UpdateAsync(dir, getAuthenticationBearerToken()); });
+                            Task task = Task.Run(async () => { await autoUpdater.UpdateAsync(dir, getAuthenticationBearerToken()); });
                             _logger.LogInformation($"dir: {dir}");
                             _informer.Inform(InformType.VersionUpdate, runningVersionString, "Update check found a new version. Installing.", false, getAuthenticationBearerToken());
                         }

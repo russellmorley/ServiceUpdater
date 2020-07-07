@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Markup;
 
 namespace Updater.Process
 {
@@ -10,8 +11,10 @@ namespace Updater.Process
         internal DirectoryInfo TargetDirInfo { get; set; }
         internal string StopCommandFileName { get; set; }
         internal string StopCommandArguments { get; set; }
+        internal bool StopCommandWaitForExit { get; set; }
         internal string StartCommandFileName { get; set; }
         internal string StartCommandArguments { get; set; }
+        internal bool StartCommandWaitForExit { get; set; }
 
         public string this[int index]
         {
@@ -62,12 +65,22 @@ namespace Updater.Process
                         }
                     case 5:
                         {
-                            StartCommandFileName = value;
+                            StopCommandWaitForExit = bool.Parse(value);
                             break;
                         }
                     case 6:
                         {
+                            StartCommandFileName = value;
+                            break;
+                        }
+                    case 7:
+                        {
                             StartCommandArguments = value;
+                            break;
+                        }
+                    case 8:
+                        {
+                            StartCommandWaitForExit = bool.Parse(value);
                             break;
                         }
                     default:
